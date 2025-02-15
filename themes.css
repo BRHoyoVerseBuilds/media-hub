@@ -1,0 +1,35 @@
+.dark-theme {
+  /* These are default values that can be overridden by custom settings */
+  --primary-color: #bb86fc;
+  --secondary-color: #03dac6;
+  --background: #121212;
+  --surface: #1e1e1e;
+  --on-background: #ffffff;
+  --on-surface: #ffffff;
+  --background-overlay: rgba(0, 0, 0, 0.7);
+}
+
+.light-theme {
+  /* These are default values that can be overridden by custom settings */
+  --primary-color: #6200ee;
+  --secondary-color: #03dac6;
+  --background: #ffffff;
+  --surface: #f5f5f5;
+  --on-background: #000000;
+  --on-surface: #000000;
+  --background-overlay: rgba(255, 255, 255, 0.85);
+}
+
+/* Animation for theme transition */
+.theme-transition {
+  animation: theme-fade 0.3s ease;
+}
+
+@keyframes theme-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
