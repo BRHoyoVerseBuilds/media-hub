@@ -19,13 +19,13 @@
 }
 
 .dracula-theme {
-  --primary-color: #ff0000;
-  --secondary-color: #800000;
-  --background: #1a0000;
-  --surface: #2d0000;
-  --on-background: #ff9999;
-  --on-surface: #ffcccc;
-  --background-overlay: rgba(26, 0, 0, 0.9);
+  --primary-color: #ff79c6;
+  --secondary-color: #50fa7b;
+  --background: #282a36;
+  --surface: #44475a;
+  --on-background: #f8f8f2;
+  --on-surface: #f8f8f2;
+  --background-overlay: rgba(40, 42, 54, 0.85);
 }
 
 .nord-theme {
@@ -46,6 +46,86 @@
   --on-background: #839496;
   --on-surface: #93a1a1;
   --background-overlay: rgba(0, 43, 54, 0.8);
+}
+
+.cyberpunk-theme {
+  --primary-color: #00ff9f;
+  --secondary-color: #ff00ff;
+  --background: #000b1e;
+  --surface: #0f1b2d;
+  --on-background: #00ff9f;
+  --on-surface: #ffffff;
+  --background-overlay: rgba(0, 11, 30, 0.85);
+}
+
+.retro-theme {
+  --primary-color: #ff6b6b;
+  --secondary-color: #4ecdc4;
+  --background: #2f2f2f;
+  --surface: #1a1a1a;
+  --on-background: #fff;
+  --on-surface: #ddd;
+  --background-overlay: rgba(47, 47, 47, 0.85);
+}
+
+.forest-theme {
+  --primary-color: #7fc06e;
+  --secondary-color: #dda15e;
+  --background: #1b2d1c;
+  --surface: #2d4a2e;
+  --on-background: #f4f1de;
+  --on-surface: #f4f1de;
+  --background-overlay: rgba(27, 45, 28, 0.85);
+}
+
+.ocean-theme {
+  --primary-color: #48cae4;
+  --secondary-color: #00b4d8;
+  --background: #03045e;
+  --surface: #023e8a;
+  --on-background: #caf0f8;
+  --on-surface: #caf0f8;
+  --background-overlay: rgba(3, 4, 94, 0.85);
+}
+
+.sunset-theme {
+  --primary-color: #f72585;
+  --secondary-color: #7209b7;
+  --background: #3a0ca3;
+  --surface: #4361ee;
+  --on-background: #ffffff;
+  --on-surface: #ffffff;
+  --background-overlay: rgba(58, 12, 163, 0.85);
+}
+
+.coffee-theme {
+  --primary-color: #c8b6a6;
+  --secondary-color: #a47e3b;
+  --background: #1b1209;
+  --surface: #2d1810;
+  --on-background: #dcd7c9;
+  --on-surface: #dcd7c9;
+  --background-overlay: rgba(27, 18, 9, 0.85);
+}
+
+.mint-theme {
+  --primary-color: #40916c;
+  --secondary-color: #2d6a4f;
+  --background: #d8f3dc;
+  --surface: #b7e4c7;
+  --on-background: #081c15;
+  --on-surface: #081c15;
+  --background-overlay: rgba(216, 243, 220, 0.85);
+}
+
+.cherry-theme {
+  --primary-color: #ff758f;
+  --secondary-color: #ff4d6d;
+  --background: #590d22;
+  --surface: #800f2f;
+  --on-background: #fff0f3;
+  --on-surface: #fff0f3;
+  --background-overlay: rgba(89, 13, 34, 0.85);
 }
 
 /* Animation for theme transition */

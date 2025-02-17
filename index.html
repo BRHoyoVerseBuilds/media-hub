@@ -5,10 +5,8 @@
   <title>My Media Hub</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="themes.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&family=Open+Sans:wght@400;600&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&family=Open+Sans:wght@400;600&family=Montserrat:wght@400;600&family=Lato:wght@400;700&family=Raleway:wght@400;600&family=Ubuntu:wght@400;500&family=Playfair+Display:wght@400;600&family=Source+Sans+Pro:wght@400;600&family=Merriweather:wght@400;700&family=Nunito:wght@400;600&family=Quicksand:wght@400;600&family=Cabin:wght@400;600&family=Josefin+Sans:wght@400;600&family=Fira+Sans:wght@400;500&family=Crimson+Text:wght@400;600&family=Work+Sans:wght@400;500&family=Space+Grotesk:wght@400;500&family=DM+Sans:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-  <script src="https://unpkg.com/@zxing/library@latest"></script>
 </head>
 <body class="light-theme">
   <header>
@@ -17,7 +15,10 @@
       <h1>My Media Hub</h1>
     </div>
     <div class="header-controls">
-      <input type="search" id="search" placeholder="Search...">
+      <button id="info-toggle">
+        <i class="fas fa-info-circle"></i>
+        Info
+      </button>
       <button id="theme-toggle">
         <i class="fas fa-cog"></i>
         Settings

@@ -1,6 +1,10 @@
 export function initializeBookmarks() {
   const bookmarksContainer = document.getElementById('bookmarks');
-  const searchInput = document.getElementById('search');
+  if (!bookmarksContainer) {
+    console.warn('Bookmarks container not found');
+    return;
+  }
+
   let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
 
   async function getVideoInfo(url) {
@@ -92,6 +96,8 @@ export function initializeBookmarks() {
   }
 
   async function renderBookmarks(filterTerm = '') {
+    if (!bookmarksContainer) return;
+    
     bookmarksContainer.innerHTML = '';
     const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
     const filteredBookmarks = filterTerm ? 
@@ -137,35 +143,8 @@ export function initializeBookmarks() {
       const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
       const updatedBookmarks = bookmarks.filter(b => b.url !== url);
       localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
-      renderBookmarks(searchInput.value);
+      renderBookmarks();
     }
-  });
-
-  // Add keyboard shortcuts
-  document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.key === 'b') {
-      const currentUrl = window.location.href;
-      const currentTitle = document.title;
-      
-      const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
-      if (!bookmarks.some(b => b.url === currentUrl)) {
-        const updatedBookmarks = [...bookmarks, {
-          url: currentUrl,
-          title: currentTitle
-        }];
-        localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
-        renderBookmarks(searchInput.value);
-      }
-    }
-  });
-
-  // Listen to search events
-  let searchTimeout;
-  searchInput.addEventListener('input', (e) => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-      renderBookmarks(e.target.value);
-    }, 300);
   });
 
   // Initial render

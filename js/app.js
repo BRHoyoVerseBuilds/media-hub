@@ -2,12 +2,14 @@ import { initializeTheme } from './theme.js';
 import { initializeLinks } from './links.js';
 import { initializeBookmarks } from './bookmarks.js';
 import { initializeCreators } from './creators.js';
+import { initializeInfo } from './info.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initializeTheme();
   initializeLinks();
   initializeBookmarks();
   initializeCreators();
+  initializeInfo();
 
   // Handle link type toggle
   const linkTypeInputs = document.querySelectorAll('input[name="type"]');

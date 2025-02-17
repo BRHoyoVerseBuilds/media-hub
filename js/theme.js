@@ -1,3 +1,19 @@
+const themeWallpapers = {
+  light: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20light.webp',
+  dark: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20dark.webp',
+  dracula: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20dracula.webp',
+  nord: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20njord.webp',
+  solarized: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20solarized.webp',
+  cyberpunk: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20cyberpunk.webp',
+  retro: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20retro.webp',
+  forest: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20forest.webp',
+  ocean: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20ocean.webp',
+  sunset: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20sunset.webp',
+  coffee: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20coffee.webp',
+  mint: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20mint.webp',
+  cherry: 'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/refs/heads/main/wallpapers/amara%20cherry.webp'
+};
+
 export function initializeTheme() {
   const themeToggle = document.getElementById('theme-toggle');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -9,8 +25,10 @@ export function initializeTheme() {
     secondaryColor: '#03dac6',
     textColor: prefersDark.matches ? '#ffffff' : '#000000',
     font: 'Poppins',
-    wallpaper: null,
-    siteName: 'My Media Hub'
+    customWallpaper: null,
+    siteName: 'My Media Hub',
+    shader: 'none',
+    shaderIntensity: 0.5
   };
 
   // Load saved theme settings with defaults
@@ -31,7 +49,7 @@ export function initializeTheme() {
 function applyTheme(settings) {
   try {
     // Apply theme mode
-    document.body.classList.remove('light-theme', 'dark-theme', 'dracula-theme', 'nord-theme', 'solarized-theme');
+    document.body.classList.remove('light-theme', 'dark-theme', 'dracula-theme', 'nord-theme', 'solarized-theme', 'cyberpunk-theme', 'retro-theme', 'forest-theme', 'ocean-theme', 'sunset-theme', 'coffee-theme', 'mint-theme', 'cherry-theme');
     document.body.classList.add(`${settings.mode}-theme`);
     
     // Apply mode-specific colors from themes.css
@@ -57,6 +75,38 @@ function applyTheme(settings) {
       root.style.setProperty('--background', '#fdf6e3');
       root.style.setProperty('--surface', '#eee8d5');
       root.style.setProperty('--background-overlay', 'rgba(253, 246, 227, 0.85)');
+    } else if (settings.mode === 'cyberpunk') {
+      root.style.setProperty('--background', '#171717');
+      root.style.setProperty('--surface', '#2c2c2c');
+      root.style.setProperty('--background-overlay', 'rgba(0, 0, 0, 0.7)');
+    } else if (settings.mode === 'retro') {
+      root.style.setProperty('--background', '#800080');
+      root.style.setProperty('--surface', '#c0c0c0');
+      root.style.setProperty('--background-overlay', 'rgba(128, 0, 128, 0.7)');
+    } else if (settings.mode === 'forest') {
+      root.style.setProperty('--background', '#228b22');
+      root.style.setProperty('--surface', '#3cb371');
+      root.style.setProperty('--background-overlay', 'rgba(34, 139, 34, 0.7)');
+    } else if (settings.mode === 'ocean') {
+      root.style.setProperty('--background', '#0000ff');
+      root.style.setProperty('--surface', '#6495ed');
+      root.style.setProperty('--background-overlay', 'rgba(0, 0, 255, 0.7)');
+    } else if (settings.mode === 'sunset') {
+      root.style.setProperty('--background', '#ffa07a');
+      root.style.setProperty('--surface', '#ffc107');
+      root.style.setProperty('--background-overlay', 'rgba(255, 160, 122, 0.7)');
+    } else if (settings.mode === 'coffee') {
+      root.style.setProperty('--background', '#964b00');
+      root.style.setProperty('--surface', '#a52a2a');
+      root.style.setProperty('--background-overlay', 'rgba(150, 75, 0, 0.7)');
+    } else if (settings.mode === 'mint') {
+      root.style.setProperty('--background', '#acffac');
+      root.style.setProperty('--surface', '#c6f4d6');
+      root.style.setProperty('--background-overlay', 'rgba(172, 255, 172, 0.7)');
+    } else if (settings.mode === 'cherry') {
+      root.style.setProperty('--background', '#ff69b4');
+      root.style.setProperty('--surface', '#ff99cc');
+      root.style.setProperty('--background-overlay', 'rgba(255, 105, 180, 0.7)');
     }
     
     // Apply font
@@ -64,15 +114,18 @@ function applyTheme(settings) {
       root.style.setProperty('--font-family', `'${settings.font}', sans-serif`);
     }
 
-    // Apply wallpaper
-    if (settings.wallpaper) {
-      document.body.style.backgroundImage = `url(${settings.wallpaper})`;
-      document.body.style.backgroundSize = 'cover';
-      document.body.style.backgroundPosition = 'center';
-      document.body.style.backgroundAttachment = 'fixed';
+    // Apply wallpaper - use custom wallpaper if set, otherwise use theme wallpaper
+    if (settings.customWallpaper) {
+      document.body.style.backgroundImage = `url(${settings.customWallpaper})`;
+    } else if (themeWallpapers[settings.mode]) {
+      document.body.style.backgroundImage = `url(${themeWallpapers[settings.mode]})`;
     } else {
       document.body.style.backgroundImage = 'none';
     }
+  
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundAttachment = 'fixed';
 
     // Apply site name
     if (settings.siteName) {
@@ -83,14 +136,18 @@ function applyTheme(settings) {
       }
     }
 
+    // Apply shader if one is selected
+    const shader = settings.shader || 'none';
+    applyShader(shader, settings.shaderIntensity || 0.5);
+
     // Save settings with better error handling and cleanup
     try {
       // Clean up wallpaper data before saving
       const settingsToSave = {...settings};
       
       // Only store the wallpaper URL, not the full data URL if it exists
-      if (settingsToSave.wallpaper && settingsToSave.wallpaper.startsWith('data:')) {
-        delete settingsToSave.wallpaper;
+      if (settingsToSave.customWallpaper && settingsToSave.customWallpaper.startsWith('data:')) {
+        delete settingsToSave.customWallpaper;
       }
       
       localStorage.setItem('themeSettings', JSON.stringify(settingsToSave));
@@ -111,12 +168,50 @@ function applyTheme(settings) {
   }
 }
 
+function applyShader(shaderType, intensity) {
+  const root = document.documentElement;
+  
+  // Remove any existing shader classes
+  document.body.classList.remove(
+    'shader-blur', 
+    'shader-grain', 
+    'shader-crt', 
+    'shader-glitch', 
+    'shader-vignette',
+    'shader-duotone',
+    'shader-scanlines',
+    'shader-pixelate',
+    'shader-rainbow',
+    'shader-noise',
+    'shader-matrix',
+    'shader-ripple',
+    'shader-kaleidoscope',
+    'shader-neon',
+    'shader-retrowave',
+    'shader-cyberpunk',
+    'shader-hologram',
+    'shader-glitchtext',
+    'shader-starfield'
+  );
+  
+  if (shaderType === 'none') {
+    root.style.setProperty('--shader-intensity', '0');
+    return;
+  }
+
+  // Add the new shader class
+  document.body.classList.add(`shader-${shaderType}`);
+  root.style.setProperty('--shader-intensity', intensity);
+}
+
 function openThemeCustomizer() {
   const currentSettings = JSON.parse(localStorage.getItem('themeSettings')) || {
     mode: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
     font: 'Poppins',
-    wallpaper: null,
-    siteName: 'My Media Hub'
+    customWallpaper: null,
+    siteName: 'My Media Hub',
+    shader: 'none',
+    shaderIntensity: 0.5
   };
   const modal = document.createElement('div');
   modal.className = 'modal active theme-customizer';
@@ -139,7 +234,7 @@ function openThemeCustomizer() {
           </div>
 
           <div class="theme-section">
-            <h3>Theme Mode</h3>
+            <h3>Theme</h3>
             <div class="theme-mode-toggle">
               <button type="button" class="mode-button ${currentSettings.mode === 'light' ? 'active' : ''}" data-mode="light">
                 <i class="fas fa-sun"></i> Light
@@ -156,6 +251,30 @@ function openThemeCustomizer() {
               <button type="button" class="mode-button ${currentSettings.mode === 'solarized' ? 'active' : ''}" data-mode="solarized">
                 <i class="fas fa-sun"></i> Solarized
               </button>
+              <button type="button" class="mode-button ${currentSettings.mode === 'cyberpunk' ? 'active' : ''}" data-mode="cyberpunk">
+                <i class="fas fa-robot"></i> Cyberpunk
+              </button>
+              <button type="button" class="mode-button ${currentSettings.mode === 'retro' ? 'active' : ''}" data-mode="retro">
+                <i class="fas fa-gamepad"></i> Retro
+              </button>
+              <button type="button" class="mode-button ${currentSettings.mode === 'forest' ? 'active' : ''}" data-mode="forest">
+                <i class="fas fa-tree"></i> Forest
+              </button>
+              <button type="button" class="mode-button ${currentSettings.mode === 'ocean' ? 'active' : ''}" data-mode="ocean">
+                <i class="fas fa-water"></i> Ocean
+              </button>
+              <button type="button" class="mode-button ${currentSettings.mode === 'sunset' ? 'active' : ''}" data-mode="sunset">
+                <i class="fas fa-sun"></i> Sunset
+              </button>
+              <button type="button" class="mode-button ${currentSettings.mode === 'coffee' ? 'active' : ''}" data-mode="coffee">
+                <i class="fas fa-coffee"></i> Coffee
+              </button>
+              <button type="button" class="mode-button ${currentSettings.mode === 'mint' ? 'active' : ''}" data-mode="mint">
+                <i class="fas fa-leaf"></i> Mint
+              </button>
+              <button type="button" class="mode-button ${currentSettings.mode === 'cherry' ? 'active' : ''}" data-mode="cherry">
+                <i class="fas fa-heart"></i> Cherry
+              </button>
             </div>
           </div>
 
@@ -166,6 +285,22 @@ function openThemeCustomizer() {
               <option value="Roboto" ${currentSettings.font === 'Roboto' ? 'selected' : ''}>Roboto</option>
               <option value="Open Sans" ${currentSettings.font === 'Open Sans' ? 'selected' : ''}>Open Sans</option>
               <option value="Montserrat" ${currentSettings.font === 'Montserrat' ? 'selected' : ''}>Montserrat</option>
+              <option value="Lato" ${currentSettings.font === 'Lato' ? 'selected' : ''}>Lato</option>
+              <option value="Raleway" ${currentSettings.font === 'Raleway' ? 'selected' : ''}>Raleway</option>
+              <option value="Ubuntu" ${currentSettings.font === 'Ubuntu' ? 'selected' : ''}>Ubuntu</option>
+              <option value="Playfair Display" ${currentSettings.font === 'Playfair Display' ? 'selected' : ''}>Playfair Display</option>
+              <option value="Source Sans Pro" ${currentSettings.font === 'Source Sans Pro' ? 'selected' : ''}>Source Sans Pro</option>
+              <option value="Merriweather" ${currentSettings.font === 'Merriweather' ? 'selected' : ''}>Merriweather</option>
+              <option value="Nunito" ${currentSettings.font === 'Nunito' ? 'selected' : ''}>Nunito</option>
+              <option value="Quicksand" ${currentSettings.font === 'Quicksand' ? 'selected' : ''}>Quicksand</option>
+              <option value="Cabin" ${currentSettings.font === 'Cabin' ? 'selected' : ''}>Cabin</option>
+              <option value="Josefin Sans" ${currentSettings.font === 'Josefin Sans' ? 'selected' : ''}>Josefin Sans</option>
+              <option value="Fira Sans" ${currentSettings.font === 'Fira Sans' ? 'selected' : ''}>Fira Sans</option>
+              <option value="Crimson Text" ${currentSettings.font === 'Crimson Text' ? 'selected' : ''}>Crimson Text</option>
+              <option value="Work Sans" ${currentSettings.font === 'Work Sans' ? 'selected' : ''}>Work Sans</option>
+              <option value="Space Grotesk" ${currentSettings.font === 'Space Grotesk' ? 'selected' : ''}>Space Grotesk</option>
+              <option value="DM Sans" ${currentSettings.font === 'DM Sans' ? 'selected' : ''}>DM Sans</option>
+              <option value="Inter" ${currentSettings.font === 'Inter' ? 'selected' : ''}>Inter</option>
             </select>
           </div>
 
@@ -179,7 +314,50 @@ function openThemeCustomizer() {
                 </div>
               </div>
               <div class="wallpaper-grid">
-                ${getWallpaperOptions(currentSettings.wallpaper)}
+                ${getWallpaperOptions(currentSettings.customWallpaper)}
+              </div>
+            </div>
+          </div>
+
+          <div class="theme-section">
+            <h3>Visual Effects</h3>
+            <div class="shader-controls">
+              <select name="shader" class="shader-selector">
+                <option value="none">None</option>
+                <option value="blur">Blur</option>
+                <option value="grain">Film Grain</option>
+                <option value="crt">CRT Effect</option>
+                <option value="glitch">Glitch</option>
+                <option value="vignette">Vignette</option>
+                <option value="duotone">Duotone</option>
+                <option value="scanlines">Scanlines</option>
+                <option value="pixelate">Pixelate</option>
+                <option value="rainbow">Rainbow Wave</option>
+                <option value="noise">Dynamic Noise</option>
+                <option value="matrix">Matrix Rain</option>
+                <option value="ripple">Ripple Effect</option>
+                <option value="kaleidoscope">Kaleidoscope</option>
+                <option value="neon">Neon Glow</option>
+                <option value="retrowave">Retrowave Grid</option>
+                <option value="cyberpunk">Cyberpunk</option>
+                <option value="hologram">Hologram</option>
+                <option value="glitchtext">Glitch Text</option>
+                <option value="starfield">Starfield</option>
+              </select>
+              <div class="shader-intensity">
+                <label for="shader-intensity">Effect Intensity</label>
+                <div style="position: relative;">
+                  <input 
+                    type="range" 
+                    id="shader-intensity"
+                    name="shaderIntensity" 
+                    min="0" 
+                    max="1" 
+                    step="0.1" 
+                    value="${currentSettings.shaderIntensity || 0.5}"
+                  >
+                  <div class="range-tooltip"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -206,20 +384,6 @@ function openThemeCustomizer() {
               </label>
               <input type="file" id="import-data" accept=".json" style="display: none;">
             </div>
-          </div>
-          
-          <div class="data-section">
-            <h3>Share Data via QR Code</h3>
-            <p>Share your setup with others using QR codes or scan someone else's setup.</p>
-            <div class="button-group">
-              <button type="button" id="generate-qr" class="primary">
-                <i class="fas fa-qrcode"></i> Generate QR Code
-              </button>
-              <button type="button" id="scan-qr" class="secondary">
-                <i class="fas fa-camera"></i> Scan QR Code
-              </button>
-            </div>
-            <div id="qr-result" style="display: none; margin-top: 1rem;"></div>
           </div>
           
           <div class="data-section">
@@ -257,7 +421,7 @@ function openThemeCustomizer() {
       item.classList.add('active');
       
       // Preview wallpaper change
-      const previewSettings = {...currentSettings, wallpaper: item.dataset.wallpaper};
+      const previewSettings = {...currentSettings, customWallpaper: item.dataset.wallpaper};
       applyTheme(previewSettings);
     });
   });
@@ -273,6 +437,24 @@ function openThemeCustomizer() {
     applyTheme(previewSettings);
   });
 
+  // Handle shader selection
+  const shaderSelector = modal.querySelector('.shader-selector');
+  const intensitySlider = modal.querySelector('input[name="shaderIntensity"]');
+  shaderSelector.addEventListener('change', () => {
+    const shader = shaderSelector.value;
+    const intensity = parseFloat(intensitySlider.value);
+    applyShader(shader, intensity);
+    const previewSettings = {...currentSettings, shader: shader, shaderIntensity: intensity};
+    applyTheme(previewSettings);
+  });
+  intensitySlider.addEventListener('input', () => {
+    const shader = shaderSelector.value;
+    const intensity = parseFloat(intensitySlider.value);
+    applyShader(shader, intensity);
+    const previewSettings = {...currentSettings, shader: shader, shaderIntensity: intensity};
+    applyTheme(previewSettings);
+  });
+
   // Handle form submission
   modal.querySelector('#theme-form').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -280,8 +462,10 @@ function openThemeCustomizer() {
     const newSettings = {
       mode: modal.querySelector('.mode-button.active').dataset.mode,
       font: formData.get('font'),
-      wallpaper: modal.querySelector('.wallpaper-item.active')?.dataset.wallpaper || null,
-      siteName: formData.get('siteName')
+      customWallpaper: modal.querySelector('.wallpaper-item.active')?.dataset.wallpaper || null,
+      siteName: formData.get('siteName'),
+      shader: formData.get('shader'),
+      shaderIntensity: parseFloat(formData.get('shaderIntensity'))
     };
     
     applyTheme(newSettings);
@@ -299,8 +483,10 @@ function openThemeCustomizer() {
     const defaultSettings = {
       mode: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
       font: 'Poppins',
-      wallpaper: null,
-      siteName: 'My Media Hub'
+      customWallpaper: null,
+      siteName: 'My Media Hub',
+      shader: 'none',
+      shaderIntensity: 0.5
     };
     applyTheme(defaultSettings);
     window.location.reload();
@@ -360,101 +546,138 @@ function openThemeCustomizer() {
     }
   });
 
-  // Add event listeners for QR code generation and scanning
-  modal.querySelector('#generate-qr').addEventListener('click', generateQRCode);
-  modal.querySelector('#scan-qr').addEventListener('click', scanQRCode);
-
-  // Add share link button
   addShareLinkButton(modal.querySelector('.data-management'));
 }
 
 function getWallpaperOptions(currentWallpaper) {
-  // Define wallpapers array with direct URLs
-  const wallpapers = [
-    'https://github.com/BRHoyoVerseBuilds/media-hub/blob/main/wallpapers/amara%20wallpaper.png?raw=true',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%201.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%202.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%203.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%204.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%205.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%206.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%207.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%208.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%209.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%2010.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%2011.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%2012.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%2013.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%2014.png',
-    'https://raw.githubusercontent.com/BRHoyoVerseBuilds/media-hub/main/wallpapers/Wallpaper%2015.png'
-  ];
-
-  let customWallpapers = JSON.parse(localStorage.getItem('customWallpapers')) || [];
-  const allWallpapers = [...wallpapers, ...customWallpapers];
-
   let wallpaperHtml = `
     <div class="wallpaper-item none ${!currentWallpaper ? 'active' : ''}" data-wallpaper="">
-      <span>No Background</span>
+      <span>Theme Default</span>
     </div>
   `;
 
-  wallpaperHtml += allWallpapers.map((wallpaper, index) => `
-    <div class="wallpaper-item ${currentWallpaper === wallpaper ? 'active' : ''}" 
-         style="background-image: url('${wallpaper}')"
-         data-wallpaper="${wallpaper}">
-      ${customWallpapers.includes(wallpaper) ? `
-        <button class="remove-wallpaper" data-wallpaper="${wallpaper}">
+  // Add all theme wallpapers
+  Object.entries(themeWallpapers).forEach(([theme, url]) => {
+    wallpaperHtml += `
+      <div class="wallpaper-item ${url === currentWallpaper ? 'active' : ''}" 
+           style="background-image: url('${url}')"
+           data-wallpaper="${url}">
+        <div class="wallpaper-label">${theme.charAt(0).toUpperCase() + theme.slice(1)} Theme</div>
+      </div>
+    `;
+  });
+
+  // Add custom wallpapers
+  const customWallpapers = JSON.parse(localStorage.getItem('customWallpapers')) || [];
+  customWallpapers.forEach(wallpaper => {
+    wallpaperHtml += `
+      <div class="wallpaper-item ${wallpaper.url === currentWallpaper ? 'active' : ''}" 
+           style="background-image: url('${wallpaper.url}')"
+           data-wallpaper="${wallpaper.url}">
+        <div class="wallpaper-label">${wallpaper.name}</div>
+        <button class="remove-wallpaper" data-wallpaper="${wallpaper.url}">
           <i class="fas fa-times"></i>
         </button>
-      ` : ''}
-    </div>
-  `).join('');
+      </div>
+    `;
+  });
 
   return wallpaperHtml;
 }
 
 function addCustomWallpaper(url) {
-  try {
-    let customWallpapers = JSON.parse(localStorage.getItem('customWallpapers')) || [];
-    if (!customWallpapers.includes(url)) {
-      customWallpapers.push(url);
+  const modal = document.createElement('div');
+  modal.className = 'modal active';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h2>Name Your Wallpaper</h2>
+      <div class="settings-section">
+        <label for="wallpaper-name">Wallpaper Name</label>
+        <input type="text" id="wallpaper-name" placeholder="Enter a name for this wallpaper" required>
+        <div class="wallpaper-preview" style="margin-top: 1rem; width: 100%; height: 200px; background-image: url('${url}'); background-size: cover; background-position: center; border-radius: var(--border-radius);"></div>
+      </div>
+      <div class="button-group">
+        <button type="button" class="cancel">Cancel</button>
+        <button type="button" class="save">Save Wallpaper</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const nameInput = modal.querySelector('#wallpaper-name');
+  const saveButton = modal.querySelector('.save');
+  const cancelButton = modal.querySelector('.cancel');
+
+  saveButton.addEventListener('click', () => {
+    const name = nameInput.value.trim();
+    if (!name) {
+      alert('Please enter a name for your wallpaper');
+      return;
+    }
+
+    try {
+      let currentSettings = JSON.parse(localStorage.getItem('themeSettings')) || {};
+      let customWallpapers = JSON.parse(localStorage.getItem('customWallpapers')) || [];
+      
+      // Add new wallpaper to custom wallpapers
+      customWallpapers.push({
+        name: name,
+        url: url
+      });
+      
+      // Save custom wallpapers
       localStorage.setItem('customWallpapers', JSON.stringify(customWallpapers));
       
-      // Update current theme settings with the new wallpaper
-      const currentSettings = JSON.parse(localStorage.getItem('themeSettings')) || {};
-      currentSettings.wallpaper = url;
+      // Set as current wallpaper
+      currentSettings.customWallpaper = url;
       localStorage.setItem('themeSettings', JSON.stringify(currentSettings));
       
-      // Apply the new wallpaper immediately
+      // Apply theme
       applyTheme(currentSettings);
       
       // Refresh wallpaper grid
-      const modal = document.querySelector('.theme-customizer');
-      const wallpaperGrid = modal.querySelector('.wallpaper-grid');
-      wallpaperGrid.innerHTML = getWallpaperOptions(url);
+      const themeModal = document.querySelector('.theme-customizer');
+      if (themeModal) {
+        const wallpaperGrid = themeModal.querySelector('.wallpaper-grid');
+        wallpaperGrid.innerHTML = getWallpaperOptions(url);
+      }
+      
+      modal.remove();
+    } catch (error) {
+      console.error('Error adding custom wallpaper:', error);
+      alert('Error saving wallpaper: ' + error.message);
     }
-  } catch (error) {
-    console.error('Error adding custom wallpaper:', error);
-  }
+  });
+
+  cancelButton.addEventListener('click', () => {
+    modal.remove();
+  });
 }
 
-function removeCustomWallpaper(url) {
-  let customWallpapers = JSON.parse(localStorage.getItem('customWallpapers')) || [];
-  customWallpapers = customWallpapers.filter(w => w !== url);
-  localStorage.setItem('customWallpapers', JSON.stringify(customWallpapers));
-  
-  // If the removed wallpaper was active, reset to no background
-  const currentSettings = JSON.parse(localStorage.getItem('themeSettings'));
-  if (currentSettings.wallpaper === url) {
-    currentSettings.wallpaper = null;
-    localStorage.setItem('themeSettings', JSON.stringify(currentSettings));
-    applyTheme(currentSettings);
+function removeCustomWallpaper(wallpaperUrl) {
+  try {
+    let customWallpapers = JSON.parse(localStorage.getItem('customWallpapers')) || [];
+    customWallpapers = customWallpapers.filter(w => w.url !== wallpaperUrl);
+    localStorage.setItem('customWallpapers', JSON.stringify(customWallpapers));
+
+    let currentSettings = JSON.parse(localStorage.getItem('themeSettings')) || {};
+    if (currentSettings.customWallpaper === wallpaperUrl) {
+      delete currentSettings.customWallpaper;
+      localStorage.setItem('themeSettings', JSON.stringify(currentSettings));
+      applyTheme(currentSettings);
+    }
+
+    // Refresh wallpaper grid
+    const modal = document.querySelector('.theme-customizer');
+    if (modal) {
+      const wallpaperGrid = modal.querySelector('.wallpaper-grid');
+      wallpaperGrid.innerHTML = getWallpaperOptions(currentSettings.customWallpaper);
+    }
+  } catch (error) {
+    console.error('Error removing custom wallpaper:', error);
+    alert('Error removing wallpaper: ' + error.message);
   }
-  
-  // Refresh wallpaper grid
-  const modal = document.querySelector('.theme-customizer');
-  const wallpaperGrid = modal.querySelector('.wallpaper-grid');
-  wallpaperGrid.innerHTML = getWallpaperOptions(currentSettings.wallpaper);
 }
 
 export function exportData() {
@@ -508,157 +731,15 @@ export function importData(file) {
   });
 }
 
-async function generateQRCode() {
-  try {
-    // Get only essential data
-    const data = {
-      bookmarks: JSON.parse(localStorage.getItem('bookmarks') || '[]'),
-      links: JSON.parse(localStorage.getItem('links') || '[]'),
-      themeSettings: JSON.parse(localStorage.getItem('themeSettings') || '{}'),
-      creators: JSON.parse(localStorage.getItem('creators') || '[]')
-    };
-    
-    // Convert to string and compress
-    const jsonString = JSON.stringify(data);
-    
-    // Split data into chunks if needed (QR code has size limitations)
-    const maxChunkSize = 1000; // Adjust this value based on testing
-    const chunks = [];
-    
-    for (let i = 0; i < jsonString.length; i += maxChunkSize) {
-      chunks.push(jsonString.slice(i, i + maxChunkSize));
-    }
-    
-    // Clear previous QR codes
-    const qrResult = document.getElementById('qr-result');
-    qrResult.innerHTML = '';
-    
-    // Generate QR code for each chunk
-    for (let i = 0; i < chunks.length; i++) {
-      const chunkData = {
-        part: i + 1,
-        total: chunks.length,
-        data: chunks[i]
-      };
-      
-      const compressedChunk = btoa(encodeURIComponent(JSON.stringify(chunkData)));
-      
-      const qrContainer = document.createElement('div');
-      qrContainer.className = 'qr-chunk';
-      qrContainer.style.marginBottom = '1rem';
-      
-      if (chunks.length > 1) {
-        const label = document.createElement('div');
-        label.textContent = `Part ${i + 1} of ${chunks.length}`;
-        label.style.marginBottom = '0.5rem';
-        label.style.textAlign = 'center';
-        qrContainer.appendChild(label);
-      }
-      
-      new QRCode(qrContainer, {
-        text: compressedChunk,
-        width: 256,
-        height: 256,
-        colorDark: getComputedStyle(document.documentElement).getPropertyValue('--on-background'),
-        colorLight: getComputedStyle(document.documentElement).getPropertyValue('--background'),
-        correctLevel: QRCode.CorrectLevel.L  // Using lower error correction to fit more data
-      });
-      
-      qrResult.appendChild(qrContainer);
-    }
-    
-    qrResult.style.display = 'flex';
-    qrResult.style.flexDirection = 'column';
-    qrResult.style.alignItems = 'center';
-    
-  } catch (error) {
-    console.error('Error generating QR code:', error);
-    alert('Error generating QR code: ' + error.message);
-  }
-}
-
-async function scanQRCode() {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-    
-    const modal = document.createElement('div');
-    modal.className = 'modal active';
-    modal.innerHTML = `
-      <div class="modal-content">
-        <h2>Scan QR Code</h2>
-        <p style="margin-bottom: 1rem;">If there are multiple QR codes, scan them in order.</p>
-        <video id="qr-video" style="width: 100%; max-width: 400px;"></video>
-        <div id="scan-status" style="margin-top: 1rem;"></div>
-        <div class="button-group">
-          <button type="button" class="cancel">Cancel</button>
-        </div>
-      </div>
-    `;
-    
-    document.body.appendChild(modal);
-    
-    const video = document.getElementById('qr-video');
-    const statusDiv = document.getElementById('scan-status');
-    video.srcObject = stream;
-    video.play();
-    
-    let chunks = [];
-    let totalChunks = 0;
-    
-    const codeReader = new ZXing.BrowserQRCodeReader();
-    codeReader.decodeFromVideoDevice(null, 'qr-video', async (result, err) => {
-      if (result) {
-        try {
-          const decoded = JSON.parse(decodeURIComponent(atob(result.text)));
-          
-          if (decoded.part && decoded.total) {
-            totalChunks = decoded.total;
-            chunks[decoded.part - 1] = decoded.data;
-            
-            statusDiv.textContent = `Scanned part ${decoded.part} of ${decoded.total}`;
-            
-            // Check if we have all chunks
-            if (chunks.filter(Boolean).length === totalChunks) {
-              const completeData = JSON.parse(chunks.join(''));
-              
-              // Import the data
-              Object.entries(completeData).forEach(([key, value]) => {
-                if (value) localStorage.setItem(key, JSON.stringify(value));
-              });
-              
-              // Clean up and reload
-              stream.getTracks().forEach(track => track.stop());
-              modal.remove();
-              alert('Data imported successfully! The page will now reload.');
-              window.location.reload();
-            }
-          }
-        } catch (error) {
-          console.error('Error processing QR code data:', error);
-          statusDiv.textContent = 'Error processing QR code. Please try again.';
-        }
-      }
-    });
-    
-    modal.querySelector('.cancel').addEventListener('click', () => {
-      stream.getTracks().forEach(track => track.stop());
-      modal.remove();
-    });
-  } catch (error) {
-    console.error('Error accessing camera:', error);
-    alert('Error accessing camera. Please make sure you have granted camera permissions.');
-  }
-}
-
 function addShareLinkButton(dataManagementDiv) {
   const shareSection = document.createElement('div');
   shareSection.className = 'data-section';
   shareSection.innerHTML = `
     <h3>Share via Link</h3>
-    <p>Generate a shareable link containing your settings, or input received settings</p>
+    <p>Generate a shareable code containing your settings, or input received settings</p>
     <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
       <button type="button" id="generate-link" class="primary">
-        <i class="fas fa-link"></i> Generate Shareable Link
+        <i class="fas fa-link"></i> Generate Shareable Code
       </button>
       <button type="button" id="input-share-data" class="secondary">
         <i class="fas fa-paste"></i> Input Share Data
@@ -679,68 +760,133 @@ function showShareDataInput() {
   modal.innerHTML = `
     <div class="modal-content">
       <h2>Input Share Data</h2>
-      <p style="margin-bottom: 1rem;">Paste the shared settings data here:</p>
+      <p style="margin-bottom: 1rem;">Paste the shared settings code here:</p>
       <textarea 
-        style="width: 100%; min-height: 150px; padding: 0.5rem; border-radius: var(--border-radius); margin-bottom: 1rem;"
-        placeholder="Paste the shared data here..."
+        style="width: 100%; min-height: 150px; padding: 0.5rem; border-radius: var(--border-radius); margin-bottom: 1rem; font-family: monospace;"
+        placeholder="Paste the shared code here..."
       ></textarea>
+      <p style="font-size: 0.9em; color: var(--on-surface); opacity: 0.7;">Paste the code you received from someone sharing their settings.</p>
       <div class="button-group">
         <button type="button" class="cancel">Cancel</button>
-        <button type="button" class="import">Import Settings</button>
+        <button type="button" class="preview">Preview Changes</button>
       </div>
     </div>
   `;
   
   document.body.appendChild(modal);
   
-  // Handle import button
-  modal.querySelector('.import').addEventListener('click', () => {
+  // Handle preview button
+  modal.querySelector('.preview').addEventListener('click', async () => {
     const input = modal.querySelector('textarea').value.trim();
     
     try {
-      let data;
-      
-      // Try to parse as URL first
-      try {
-        const url = new URL(input);
-        const shareParam = url.searchParams.get('share');
-        if (shareParam) {
-          data = JSON.parse(decodeURIComponent(atob(shareParam)));
-        } else {
-          throw new Error('No share data found in URL');
-        }
-      } catch (urlError) {
-        // If not a URL, try to parse as direct base64
-        try {
-          data = JSON.parse(decodeURIComponent(atob(input)));
-        } catch (base64Error) {
-          // If not base64, try to parse as direct JSON
-          data = JSON.parse(input);
-        }
-      }
+      // Try to parse the input as base64
+      const importedData = JSON.parse(decodeURIComponent(atob(input)));
       
       // Validate data structure
-      if (!data || typeof data !== 'object') {
-        throw new Error('Invalid data format');
+      if (!importedData || typeof importedData !== 'object') {
+        throw new Error('Invalid code format');
+      }
+
+      // Get current data
+      const currentData = {
+        bookmarks: JSON.parse(localStorage.getItem('bookmarks') || '[]'),
+        links: JSON.parse(localStorage.getItem('links') || '[]'),
+        themeSettings: JSON.parse(localStorage.getItem('themeSettings') || '{}'),
+        creators: JSON.parse(localStorage.getItem('creators') || '[]')
+      };
+
+      // Create change summary
+      let changes = [];
+      
+      // Compare bookmarks
+      if (importedData.bookmarks?.length !== currentData.bookmarks.length) {
+        changes.push(`Bookmarks will change from ${currentData.bookmarks.length} to ${importedData.bookmarks?.length || 0} items`);
       }
       
-      // Show confirmation
-      if (confirm('Are you sure you want to import these settings? This will override your current settings.')) {
+      // Compare quick access links
+      if (importedData.links?.length !== currentData.links.length) {
+        changes.push(`Quick Access Links will change from ${currentData.links.length} to ${importedData.links?.length || 0} items`);
+      }
+
+      // Compare creators
+      if (importedData.creators?.length !== currentData.creators.length) {
+        changes.push(`Favorite Creators will change from ${currentData.creators.length} to ${importedData.creators?.length || 0} items`);
+      }
+
+      // Compare theme settings
+      const themeChanges = [];
+      if (importedData.themeSettings?.mode !== currentData.themeSettings.mode) {
+        themeChanges.push(`Theme Mode: ${currentData.themeSettings.mode || 'default'} → ${importedData.themeSettings?.mode || 'default'}`);
+      }
+      if (importedData.themeSettings?.font !== currentData.themeSettings.font) {
+        themeChanges.push(`Font: ${currentData.themeSettings.font || 'default'} → ${importedData.themeSettings?.font || 'default'}`);
+      }
+      if (importedData.themeSettings?.siteName !== currentData.themeSettings.siteName) {
+        themeChanges.push(`Site Name: ${currentData.themeSettings.siteName || 'My Media Hub'} → ${importedData.themeSettings?.siteName || 'My Media Hub'}`);
+      }
+      if (themeChanges.length > 0) {
+        changes.push('Theme Settings Changes:', ...themeChanges.map(change => `  - ${change}`));
+      }
+
+      // Show confirmation modal with changes
+      const confirmModal = document.createElement('div');
+      confirmModal.className = 'modal active';
+      confirmModal.innerHTML = `
+        <div class="modal-content">
+          <h2>Review Changes</h2>
+          <div style="margin: 1rem 0;">
+            <h3 style="margin-bottom: 0.5rem;">The following changes will be made:</h3>
+            ${changes.length > 0 ? 
+              `<ul style="list-style: none; margin-left: 0;">
+                ${changes.map(change => `<li style="margin-bottom: 0.5rem; padding-left: ${change.startsWith('  -') ? '1rem' : '0'};">${change}</li>`).join('')}
+              </ul>` : 
+              '<p>No changes detected</p>'
+            }
+          </div>
+          <p style="margin-bottom: 1rem; color: var(--on-surface); opacity: 0.8;">
+            ⚠️ Warning: This will overwrite your current settings with the imported ones.
+            Please make sure to backup your current settings if needed.
+          </p>
+          <div class="button-group">
+            <button type="button" class="cancel">Cancel</button>
+            <button type="button" class="backup">Backup Current</button>
+            <button type="button" class="import">Import Changes</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(confirmModal);
+
+      // Handle backup button
+      confirmModal.querySelector('.backup').addEventListener('click', () => {
+        exportData();
+      });
+
+      // Handle import button
+      confirmModal.querySelector('.import').addEventListener('click', () => {
         // Import the data
-        Object.entries(data).forEach(([key, value]) => {
+        Object.entries(importedData).forEach(([key, value]) => {
           if (value) localStorage.setItem(key, JSON.stringify(value));
         });
         
         // Reload page
         alert('Settings imported successfully! The page will now reload.');
         window.location.reload();
-      }
+      });
+
+      // Handle cancel button
+      confirmModal.querySelector('.cancel').addEventListener('click', () => {
+        confirmModal.remove();
+      });
+
+      // Remove the original modal
+      modal.remove();
+
     } catch (error) {
       console.error('Error importing settings:', error);
-      alert('Error importing settings: ' + error.message);
+      alert('Error importing settings: Invalid code format. Please make sure you\'ve copied the entire code.');
     }
-    
-    modal.remove();
   });
   
   // Handle cancel button
@@ -762,21 +908,18 @@ function generateShareableLink() {
     // Convert to base64
     const encodedData = btoa(encodeURIComponent(JSON.stringify(data)));
     
-    // Create URL with data
-    const url = new URL(window.location.href);
-    url.searchParams.set('share', encodedData);
-    
-    // Show modal with copyable link
+    // Show modal with copyable code
     const modal = document.createElement('div');
     modal.className = 'modal active';
     modal.innerHTML = `
       <div class="modal-content">
         <h2>Share Settings</h2>
-        <p style="margin-bottom: 1rem;">Copy this link to share your settings:</p>
+        <p style="margin-bottom: 1rem;">Copy this code to share your settings:</p>
         <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-          <input type="text" value="${url.href}" readonly style="flex: 1; padding: 0.5rem; border-radius: var(--border-radius);">
+          <input type="text" value="${encodedData}" readonly style="flex: 1; padding: 0.5rem; border-radius: var(--border-radius); margin-bottom: 1rem; font-family: monospace;">
           <button class="copy-button" style="padding: 0.5rem 1rem; background: var(--primary-color); color: white; border: none; border-radius: var(--border-radius); cursor: pointer;">Copy</button>
         </div>
+        <p style="font-size: 0.9em; color: var(--on-surface); opacity: 0.7;">Share this code with others so they can import your settings using the "Input Share Data" button.</p>
         <div class="button-group">
           <button type="button" class="cancel">Close</button>
         </div>
@@ -803,61 +946,8 @@ function generateShareableLink() {
     });
     
   } catch (error) {
-    console.error('Error generating shareable link:', error);
-    alert('Error generating shareable link: ' + error.message);
-  }
-}
-
-// Function to handle importing from URL parameters
-function handleSharedSettings() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const sharedData = urlParams.get('share');
-  
-  if (sharedData) {
-    try {
-      const data = JSON.parse(decodeURIComponent(atob(sharedData)));
-      
-      // Show confirmation modal
-      const modal = document.createElement('div');
-      modal.className = 'modal active';
-      modal.innerHTML = `
-        <div class="modal-content">
-          <h2>Import Shared Settings</h2>
-          <p style="margin-bottom: 1rem;">Would you like to import the shared settings? This will override your current settings.</p>
-          <div class="button-group">
-            <button type="button" class="cancel">Cancel</button>
-            <button type="button" class="import">Import Settings</button>
-          </div>
-        </div>
-      `;
-      
-      document.body.appendChild(modal);
-      
-      // Handle import button
-      modal.querySelector('.import').addEventListener('click', () => {
-        // Import the data
-        Object.entries(data).forEach(([key, value]) => {
-          if (value) localStorage.setItem(key, JSON.stringify(value));
-        });
-        
-        // Clean URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-        
-        // Reload page
-        window.location.reload();
-      });
-      
-      // Handle cancel button
-      modal.querySelector('.cancel').addEventListener('click', () => {
-        window.history.replaceState({}, document.title, window.location.pathname);
-        modal.remove();
-      });
-      
-    } catch (error) {
-      console.error('Error importing shared settings:', error);
-      alert('Error importing shared settings: ' + error.message);
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
+    console.error('Error generating share code:', error);
+    alert('Error generating share code: ' + error.message);
   }
 }
 
@@ -874,5 +964,4 @@ window.addEventListener('load', () => {
   if (lastSettings) {
     applyTheme(JSON.parse(lastSettings));
   }
-  handleSharedSettings();
 });
